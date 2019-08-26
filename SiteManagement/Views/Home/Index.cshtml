@@ -1,1 +1,20 @@
-﻿<h4>From Index View After Initial Migration</h4>
+﻿@model IEnumerable<SiteManagement.Models.Site>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Phone</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var site in Model)
+        {
+        <tr>
+            <td>@site.Name</td>
+            <td>@site.Phone</td>
+        </tr>
+        }
+    </tbody>
+</table>

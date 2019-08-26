@@ -26,6 +26,8 @@ namespace SiteManagement
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("SiteDbContext")));
             services.AddMvc();
+
+            services.AddScoped<ISiteRepository, SQLSiteRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
