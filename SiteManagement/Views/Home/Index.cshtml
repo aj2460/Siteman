@@ -1,20 +1,135 @@
-﻿@model IEnumerable<SiteManagement.Models.Site>
+﻿@model IEnumerable<Site>
 
-<table>
-    <thead>
+
+@{
+    ViewBag.Title = "Site List";
+}
+
+
+<h4>Site List</h4>
+
+<table class="table  table-sm">
+    <thead class="thead-light">
         <tr>
-            <th>Name</th>
-            <th>Phone</th>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Total</th>
+
 
         </tr>
     </thead>
     <tbody>
-        @foreach(var site in Model)
-        {
+        @{
+            var i = 1;
+            @foreach (var site in Model)
+            {
         <tr>
+            <th scope="row">@i</th>
             <td>@site.Name</td>
             <td>@site.Phone</td>
+            <td></td>
+            <td> @String.Format("{0:##,##,##0.##}", @site.MaterialExpenses.Sum(o => o.Amount)+@site.LabourExpenses.Sum(o => o.Wage))</td>
+          
+
+            <td><a asp-controller="Home" asp-action="Details" asp-route-id="@site.Id" class="btn btn-success btn-sm">Details</a> </td>
+            <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@site.Id" class="btn btn-outline-light btn-sm">Edit</a> </td>
         </tr>
+                i = i + 1;
+            }
         }
+
     </tbody>
 </table>
+
+
+
+<div>
+
+    @*<table>
+            <thead>
+                <tr>
+                    <th>Site</th>
+                    <th>Phone</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var site in Model)
+                {
+                <tr>
+                    <td><h4>@site.Name</h4></td>
+                    <td>Phone: @site.Phone</td>
+                </tr>
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Employee Name</th>
+                            <th>Particular</th>
+                            <th>Amount</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var mat in site.MaterialExpenses)
+                            {
+                        <tr>
+                            <td> @Convert.ToDateTime(@mat.Date).ToString("dd/MM/yyyy")</td>
+                            <td>@Html.DisplayFor(modelItem => mat.Date)</td>
+
+                            <td>@mat.Labour.Name</td>
+                            <td>@mat.Particular</td>
+                            <td>@String.Format("{0:##,##,##0.##}", @mat.Amount)</td>
+                        </tr>
+                            }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Total</td>
+                            <td>@String.Format("{0:##,##,##0.##}", @site.MaterialExpenses.Sum(o => o.Amount))</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Employee Name</th>
+                            <th>Designation</th>
+                            <th>Day</th>
+                            <th>Wage</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var lab in site.LabourExpenses)
+                            {
+                        <tr>
+                            <td> @Html.DisplayFor(modelItem => lab.Date)</td>
+                            <td>@lab.Labour.Name</td>
+                            <td>@lab.Labour.Category</td>
+                            <td>@lab.Day</td>
+                            <td>@String.Format("{0:##,##,##0.##}", lab.Wage)</td>
+                        </tr>
+                            }
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>Total</td>
+                            <td>@String.Format("{0:##,##,##0.##}", @site.LabourExpenses.Sum(o => o.Wage))</td>
+                        </tr>
+                    </tbody>
+                </table>
+                }
+            </tbody>
+
+
+        </table>*@
+
+</div>

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiteManagement.DbLayer;
 
 namespace SiteManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190827052503_SetDateFormatStringinModel")]
+    partial class SetDateFormatStringinModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,16 +27,11 @@ namespace SiteManagement.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Category");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
-                    b.Property<string>("Phone")
-                        .HasMaxLength(50);
+                    b.Property<string>("Phone");
 
                     b.Property<float>("Wage");
 
@@ -53,8 +50,7 @@ namespace SiteManagement.Migrations
 
                     b.Property<float>("Day");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(250);
+                    b.Property<string>("Description");
 
                     b.Property<int>("LabourId");
 
@@ -81,8 +77,7 @@ namespace SiteManagement.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Dscription")
-                        .HasMaxLength(250);
+                    b.Property<string>("Dscription");
 
                     b.Property<int>("LabourId");
 
@@ -101,14 +96,11 @@ namespace SiteManagement.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(250);
+                    b.Property<string>("Description");
 
                     b.Property<int>("LabourId");
 
-                    b.Property<string>("Particular")
-                        .IsRequired()
-                        .HasMaxLength(250);
+                    b.Property<string>("Particular");
 
                     b.Property<int>("SiteId");
 
@@ -127,22 +119,13 @@ namespace SiteManagement.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(250);
+                    b.Property<string>("Address");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Name");
 
-                    b.Property<string>("Phone")
-                        .HasMaxLength(50);
+                    b.Property<string>("Phone");
 
-                    b.Property<string>("Place")
-                        .IsRequired()
-                        .HasMaxLength(250);
-
-                    b.Property<string>("email");
+                    b.Property<string>("Place");
 
                     b.HasKey("Id");
 

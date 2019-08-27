@@ -9,6 +9,6 @@ namespace SiteManagement.DbLayer
     public interface ISiteRepository
     {
         Site GetSite(int Id);
-        IEnumerable<Site> GetAllSite();
+        ICollection<Site> GetAllSite();
     }
 }
