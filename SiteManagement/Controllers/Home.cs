@@ -19,5 +19,11 @@ namespace SiteManagement.Controllers
         {
             return View(_siteRepository.GetAllSite());
         }
+
+
+        public IActionResult Details(int Id)
+        {
+            return View(_siteRepository.GetSite(Id));
+        }
     }
 }

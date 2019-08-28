@@ -25,21 +25,19 @@
             var i = 1;
             @foreach (var site in Model)
             {
-        <tr>
-            <th scope="row">@i</th>
-            <td>@site.Name</td>
-            <td>@site.Phone</td>
-            <td></td>
-            <td> @String.Format("{0:##,##,##0.##}", @site.MaterialExpenses.Sum(o => o.Amount)+@site.LabourExpenses.Sum(o => o.Wage))</td>
-          
+                <tr>
+                    <th scope="row">@i</th>
+                    <td>@site.Name</td>
+                    <td>@site.Phone</td>
+                    <td>@site.email</td>
+                    <td> @String.Format("{0:##,##,##0.##}", @site.MaterialExpenses.Sum(o => o.Amount) + @site.LabourExpenses.Sum(o => o.Wage))</td>
 
-            <td><a asp-controller="Home" asp-action="Details" asp-route-id="@site.Id" class="btn btn-success btn-sm">Details</a> </td>
-            <td><a asp-controller="Home" asp-action="Edit" asp-route-id="@site.Id" class="btn btn-outline-light btn-sm">Edit</a> </td>
-        </tr>
-                i = i + 1;
+
+                    <td><a asp-controller="Home" asp-action="Details" asp-route-id="@site.Id" class="btn btn-success btn-sm">Site Summary</a> </td>
+                </tr>
+                 i = i + 1;
             }
         }
-
     </tbody>
 </table>
 

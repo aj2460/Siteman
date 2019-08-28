@@ -32,7 +32,15 @@ namespace SiteManagement.DbLayer
 
         public Site GetSite(int Id)
         {
-            throw new NotImplementedException();
+            var st = context.Sites
+                .Include(a => a.MaterialExpenses)
+                .ThenInclude(b => b.Labour)
+                .Include(l => l.LabourExpenses)
+               .ThenInclude(b => b.Labour).First(o => o.Id == Id);
+
+
+
+            return st;
         }
     }
 }

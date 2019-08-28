@@ -21,16 +21,22 @@
             </a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link">List</a>
+                    <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a asp-controller="Home" asp-action="Create" class="nav-link">Create</a>
+                    <a asp-controller="Sites" asp-action="Index" class="nav-link">Site</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Employee" asp-action="Index" class="nav-link">Labour</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Bill" asp-action="Create" class="nav-link">Material Expense</a>
                 </li>
             </ul>
         </nav>
 
 
-        <div>
+        <div class="container">
             @RenderBody()
         </div>
 
