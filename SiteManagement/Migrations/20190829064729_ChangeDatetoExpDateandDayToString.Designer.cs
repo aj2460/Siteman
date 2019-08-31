@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiteManagement.DbLayer;
 
 namespace SiteManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190829064729_ChangeDatetoExpDateandDayToString")]
+    partial class ChangeDatetoExpDateandDayToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,12 +30,6 @@ namespace SiteManagement.Migrations
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasMaxLength(50);
-
-                    b.Property<int>("LabourExpenseId");
-
-                    b.Property<int>("LabourReceiptId");
-
-                    b.Property<int>("MaterialExpenseId");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -97,8 +93,6 @@ namespace SiteManagement.Migrations
                     b.Property<int>("LabourId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LabourId");
 
                     b.ToTable("labourReceipts");
                 });
@@ -176,18 +170,10 @@ namespace SiteManagement.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SiteManagement.Models.LabourReceipt", b =>
-                {
-                    b.HasOne("SiteManagement.Models.Labour", "Labour")
-                        .WithMany("LabourReceipts")
-                        .HasForeignKey("LabourId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("SiteManagement.Models.MaterialExpense", b =>
                 {
                     b.HasOne("SiteManagement.Models.Labour", "Labour")
-                        .WithMany("MaterilaExpenses")
+                        .WithMany()
                         .HasForeignKey("LabourId")
                         .OnDelete(DeleteBehavior.Cascade);
 

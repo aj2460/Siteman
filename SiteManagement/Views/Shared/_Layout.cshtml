@@ -7,7 +7,7 @@
     <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
    
 
-
+    <link href="~/css/mvc-grid/mvc-grid.css" rel="stylesheet" />
     <link href="~/css/Site.css" rel="stylesheet" />
 
 
@@ -30,8 +30,21 @@
                     <a asp-controller="Employee" asp-action="Index" class="nav-link">Labour</a>
                 </li>
                 <li class="nav-item">
-                    <a asp-controller="Bill" asp-action="Create" class="nav-link">Material Expense</a>
+                    <a asp-controller="materialexpenses" asp-action="Index" class="nav-link">Material Expense</a>
                 </li>
+                <li class="nav-item">
+                    <a asp-controller="labourexpenses" asp-action="Index" class="nav-link">Labour Expense</a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-controller="labourreceipts" asp-action="Index" class="nav-link"> Receipts</a>
+                </li>
+
+                <li class="nav-item">
+                    <a asp-controller="Report" asp-action="labourreport" class="nav-link">Report</a>
+                </li>
+
+
             </ul>
         </nav>
 
@@ -48,7 +61,7 @@
    
 
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
-
+    <script src="~/js/mvc-grid/mvc-grid.js"></script>
     @if (IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts", required: true)

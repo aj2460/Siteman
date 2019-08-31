@@ -12,8 +12,8 @@ namespace SiteManagement.Models
         public int Id { get; set; }
         public int LabourId { get; set; }
 
-       
-        [DisplayFormat(DataFormatString = "{0:dd/MMM/yy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MMM/yy}")]
         public DateTime Date { get; set; }
 
         [Column(TypeName = "money")]
@@ -23,5 +23,7 @@ namespace SiteManagement.Models
         [MaxLength(250, ErrorMessage = "Description Cannot Exceed 250 Characters")]
         public string Dscription { get; set; }
 
+
+        public Labour Labour { get; set; }
     }
 }

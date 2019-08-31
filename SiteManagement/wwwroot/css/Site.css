@@ -1,0 +1,48 @@
+﻿.navbar-nav > li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.navbar {
+    height: 40px ;
+}
+.btn-eq{
+    width:75px
+}
+
+.card-header {
+    margin: 2px;
+    padding: 2px;
+}
+.card-text {
+    margin: 0px;
+    padding: 0px;
+}
+
+.myColor {
+    color: darkgray
+}
+
+.myButton {
+    background-color: #1a6b2f;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #147d1f;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 14px;
+    padding: 5px 16px;
+    text-decoration: none;
+}
+
+.myButton:hover {
+        background-color: #5cbf2a;
+    }
+
+.myButton:active {
+        position: relative;
+        top: 1px;
+    }

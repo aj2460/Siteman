@@ -66,7 +66,7 @@ namespace SiteManagement.Controllers
             var LaboursQuery = (from labour in _context.labours
                                 orderby labour.Name
                                 select new { labour.Id, labour.Name });
-            ViewBag.LabourID = new SelectList(LaboursQuery.AsNoTracking(), "Id", "Name", selectedLabour);
+            ViewBag.LabourId = new SelectList(LaboursQuery.AsNoTracking(), "Id", "Name", selectedLabour);
         }
 
         public void PopulateSiteDropDownList(object selectedSite = null)

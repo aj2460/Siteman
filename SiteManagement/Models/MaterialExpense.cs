@@ -10,12 +10,14 @@ namespace SiteManagement.Models
     public class MaterialExpense
     {
         public int Id { get; set; }
+        [Required]
         public int SiteId { get; set; }
+        [Required]
         public int LabourId { get; set; }
 
         
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MMM/yy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MMM/yy}")]
         public DateTime Date { get; set; }
 
         [MaxLength(250, ErrorMessage = "Particular Cannot Exceed 250 Characters")]

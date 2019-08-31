@@ -15,12 +15,12 @@ namespace SiteManagement.Models
 
         
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MMM/yy}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MMM/yy}")]
+        public DateTime ExpDate { get; set; }
 
        
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
-        public float Day { get; set; } // half or full day
+        
+        public string Day { get; set; } // half or full day
 
         [Column(TypeName = "money")]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 0")]
