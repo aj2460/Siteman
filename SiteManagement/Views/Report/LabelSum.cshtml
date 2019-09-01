@@ -1,0 +1,84 @@
+﻿@model IEnumerable<LabourReport>
+@*@foreach (var l in @Model)
+    {
+        <p>@l.labour.Name</p>
+        foreach (var m in @l.materialExpense)
+        {
+            <p>@m.Site.Name </p>
+        }
+
+    }*@
+    <form asp-action="LabelSum">
+        <div class="form-group row">
+            <label id="SiteId" class="control-label  col-sm-3">Site</label>
+            <select Name="SiteId" id="SiteId" class="form-control  col-sm-8" asp-items="@ViewBag.SiteId">
+                <option value="">-- Select Site --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="LabelSum" class="btn btn-primary" />
+        </div>
+    </form>
+
+
+
+    @{ var Mtot = 0.0;
+        var LTot = 0.0;
+        var tot = 0.0;
+
+        @if (@Model.First().materialExpense.Count() > 0)
+        {
+            <h6>Expense for Site :  @Model.First().materialExpense.First().Site.Name </h6>
+        }
+        else
+        {
+            <h6>No expense record found for selected Site :</h6>
+        }
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Material Expense</th>
+                    <th>Labour Expense</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var Lab in @Model)
+                {
+                    <tr>
+                        <td> @Lab.labour.Name </td>
+                        <td>@Lab.materialExpense.Sum(o => o.Amount) </td>
+
+                        <td>@Lab.labourExpense.Sum(o => o.Wage)</td>
+
+                    </tr>
+                    Mtot += @Lab.materialExpense.Sum(o => o.Amount);
+                    LTot += @Lab.labourExpense.Sum(o => o.Wage);
+                    tot = Mtot + LTot;
+                }
+
+                <tr><td></td> <td>@Mtot</td> <td>@LTot</td></tr>
+
+                <tr><td>@tot</td></tr>
+            </tbody>
+        </table>
+
+    }
+
+
+
+    @*@model  IEnumerable<Labour>
+
+        <table class="table">
+            @foreach (var l in @Model)
+            {
+                <tr><td>@l.Name </td></tr>
+                <tr><td>Material </td> <td>@l.MaterilaExpenses.Sum(o => o.Amount)</td></tr>
+                <tr><td> Labour</td> <td>@l.LabourExpenses.Sum(o => o.Wage)</td></tr>
+
+            }
+
+        </table>*@

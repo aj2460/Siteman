@@ -19,6 +19,9 @@ namespace SiteManagement.DbLayer
         public DbSet<MaterialExpense> MaterialExpenses { get; set; }
         public DbSet<LabourExpense> LabourExpenses { get; set; }
         public DbSet<LabourReceipt> labourReceipts { get; set; }
-        
+
+        public DbSet<EmployeeCategory> EmployeeCategories { get; set; }
+
+
     }
 }

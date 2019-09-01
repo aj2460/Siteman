@@ -10,8 +10,10 @@ namespace SiteManagement.Models
     public class MaterialExpense
     {
         public int Id { get; set; }
+
         [Required]
         public int SiteId { get; set; }
+
         [Required]
         public int LabourId { get; set; }
 

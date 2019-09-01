@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SiteManagement.DbLayer;
 using SiteManagement.Models;
 
-namespace SiteManagement.wwwroot
+namespace SiteManagement.Controllers
 {
     public class Employee : Controller
     {
@@ -22,7 +22,8 @@ namespace SiteManagement.wwwroot
         // GET: Employee
         public async Task<IActionResult> Index()
         {
-            return View(await _context.labours.ToListAsync());
+            var appDbContext = _context.labours.Include(l => l.EmployeeCategory);
+            return View(await appDbContext.ToListAsync());
         }
 
         // GET: Employee/Details/5
@@ -34,6 +35,7 @@ namespace SiteManagement.wwwroot
             }
 
             var labour = await _context.labours
+                .Include(l => l.EmployeeCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (labour == null)
             {
@@ -46,6 +48,7 @@ namespace SiteManagement.wwwroot
         // GET: Employee/Create
         public IActionResult Create()
         {
+            ViewData["EmployeeCategoryId"] = new SelectList(_context.EmployeeCategories, "Id", "Name");
             return View();
         }
 
@@ -54,7 +57,7 @@ namespace SiteManagement.wwwroot
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Category,Phone,Wage")] Labour labour)
+        public async Task<IActionResult> Create([Bind("Id,Name,EmployeeCategoryId,Phone,Wage")] Labour labour)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +65,7 @@ namespace SiteManagement.wwwroot
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeCategoryId"] = new SelectList(_context.EmployeeCategories, "Id", "Name", labour.EmployeeCategoryId);
             return View(labour);
         }
 
@@ -78,6 +82,7 @@ namespace SiteManagement.wwwroot
             {
                 return NotFound();
             }
+            ViewData["EmployeeCategoryId"] = new SelectList(_context.EmployeeCategories, "Id", "Name", labour.EmployeeCategoryId);
             return View(labour);
         }
 
@@ -86,7 +91,7 @@ namespace SiteManagement.wwwroot
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Category,Phone,Wage")] Labour labour)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,EmployeeCategoryId,Phone,Wage")] Labour labour)
         {
             if (id != labour.Id)
             {
@@ -113,6 +118,7 @@ namespace SiteManagement.wwwroot
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeCategoryId"] = new SelectList(_context.EmployeeCategories, "Id", "Name", labour.EmployeeCategoryId);
             return View(labour);
         }
 
@@ -125,6 +131,7 @@ namespace SiteManagement.wwwroot
             }
 
             var labour = await _context.labours
+                .Include(l => l.EmployeeCategory)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (labour == null)
             {

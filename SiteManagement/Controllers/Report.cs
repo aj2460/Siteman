@@ -22,7 +22,7 @@ namespace SiteManagement.Controllers
 
         }
 
-        public IActionResult temp()
+        public IActionResult LabelSum()
         {
             //IEnumerable<LabourReport> x = _context.labours.GroupJoin(_context.MaterialExpenses, d => d.Id, o => o.LabourId, (labour, expense) => new LabourReport() { labour = labour,  materialExpense = expense });
             //IEnumerable<LabourReport> x = _context.labours.GroupJoin(_context.MaterialExpenses.Include(s=>s.Site), d => d.Id, o => o.LabourId, (labour, expense) => new LabourReport() { labour = labour, materialExpense = expense });
@@ -56,15 +56,50 @@ namespace SiteManagement.Controllers
                 }
                 ).ToList();
 
-
+            PopulateSiteDropDownList();
 
 
 
             return View(x);
         }
 
+        [HttpPost]
+        public IActionResult LabelSum(LabourReport labourReport)
+        {
+            IEnumerable<LabourReport> LabSum = _context.labours
+               .Include(p => p.MaterilaExpenses).ThenInclude(o => o.Site)
+               .Include(p => p.LabourExpenses).ThenInclude(o => o.Site)
+               .Select(p => new LabourReport()
+               {
+                   labour = p,
+                   materialExpense = p.MaterilaExpenses,
+                   labourExpense = p.LabourExpenses
+               }
+               ).ToList();
+            if (Request.Form["SiteId"] != "")
+            {
+                int siteId = Convert.ToInt32(Request.Form["SiteId"]);
+                 LabSum = _context.labours
+                .Include(p => p.MaterilaExpenses).ThenInclude(o => o.Site)
+                .Include(p => p.LabourExpenses).ThenInclude(o => o.Site)
+                .Select(p => new LabourReport()
+                {
+                    labour = p,
+                    materialExpense = p.MaterilaExpenses.Where(s => s.SiteId == siteId),
+                    labourExpense = p.LabourExpenses.Where(s => s.SiteId == siteId)
+                }
+                ).ToList();
+                PopulateSiteDropDownList(siteId);
+            }
+            else
+            {
+               
+                PopulateSiteDropDownList();
+            }
+            return View(LabSum);
+        }
 
-        public IActionResult LabourReport()
+            public IActionResult LabourReport()
         {
             var m = _context.MaterialExpenses.Include("Labour").Include("Site");
             

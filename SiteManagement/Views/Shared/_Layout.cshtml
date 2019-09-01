@@ -27,6 +27,9 @@
                     <a asp-controller="Sites" asp-action="Index" class="nav-link">Site</a>
                 </li>
                 <li class="nav-item">
+                    <a asp-controller="EmployeeCategories" asp-action="Index" class="nav-link">Category</a>
+                </li>
+                <li class="nav-item">
                     <a asp-controller="Employee" asp-action="Index" class="nav-link">Labour</a>
                 </li>
                 <li class="nav-item">
@@ -40,8 +43,17 @@
                     <a asp-controller="labourreceipts" asp-action="Index" class="nav-link"> Receipts</a>
                 </li>
 
-                <li class="nav-item">
-                    <a asp-controller="Report" asp-action="labourreport" class="nav-link">Report</a>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        Report
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a asp-controller="Report" asp-action="labourreport">Labour Report</a></a></li>
+                        <li><a asp-controller="Report" asp-action="LabelSum" >Labour Summary</a></li>
+                        <li><a href="#">Page 1-3</a></li>
+                    </ul>
+
                 </li>
 
 
@@ -58,9 +70,12 @@
     </div>
 
 
-   
 
-    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
     <script src="~/js/mvc-grid/mvc-grid.js"></script>
     @if (IsSectionDefined("Scripts"))
     {

@@ -19,21 +19,26 @@ namespace SiteManagement.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("SiteManagement.Models.EmployeeCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeCategories");
+                });
+
             modelBuilder.Entity("SiteManagement.Models.Labour", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<int>("LabourExpenseId");
-
-                    b.Property<int>("LabourReceiptId");
-
-                    b.Property<int>("MaterialExpenseId");
+                    b.Property<int>("EmployeeCategoryId");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -45,6 +50,8 @@ namespace SiteManagement.Migrations
                     b.Property<float>("Wage");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeCategoryId");
 
                     b.ToTable("labours");
                 });
@@ -161,6 +168,14 @@ namespace SiteManagement.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sites");
+                });
+
+            modelBuilder.Entity("SiteManagement.Models.Labour", b =>
+                {
+                    b.HasOne("SiteManagement.Models.EmployeeCategory", "EmployeeCategory")
+                        .WithMany()
+                        .HasForeignKey("EmployeeCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SiteManagement.Models.LabourExpense", b =>
