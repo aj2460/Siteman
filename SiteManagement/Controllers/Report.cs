@@ -22,7 +22,77 @@ namespace SiteManagement.Controllers
 
         }
 
-        public IActionResult LabelSum()
+
+        [HttpGet]
+        public IActionResult LabourBalance()
+        {
+            IEnumerable<LabourReport> LabExp = _context.labours
+               .Include(p => p.MaterilaExpenses)
+               .Include(p => p.LabourExpenses).ThenInclude(o => o.ExpenseType)
+               .Include(p => p.LabourReceipts)
+               .Select(p => new LabourReport()
+               {
+                   labour = p,
+                   materialExpense = p.MaterilaExpenses,
+                   labourReceipt = p.LabourReceipts,
+                   labourExpense = p.LabourExpenses.Where(o => o.ExpenseType.ExType != "Wage").ToList()
+               }
+               ).ToList();
+            return View(LabExp);
+
+        }
+
+
+
+        [HttpGet]
+        public IActionResult LabourReport()
+        {
+            var m = _context.LabourExpenses.Include(o => o.ExpenseType).Include(o => o.Labour).ThenInclude(o => o.EmployeeCategory).Include("Site");
+
+            PopulateLabourDropDownList();
+            PopulateSiteDropDownList();
+            PopulateCategoryDropDownList();
+            return View(m);
+            
+        }
+
+        [HttpPost]
+        public IActionResult LabourReport(LabourReport labourReport)
+        {
+            var lab = _context.LabourExpenses.Include(o=>o.ExpenseType).Include(o => o.Labour).ThenInclude(o => o.EmployeeCategory).Include("Site");
+            if (Request.Form["SiteId"] != "")
+            {
+                int s = Convert.ToInt32(Request.Form["SiteId"]);
+                PopulateSiteDropDownList(s);
+                lab = _context.LabourExpenses.Include(o => o.ExpenseType).Include(o => o.Labour).ThenInclude(o => o.EmployeeCategory).Include("Site").Where(o => o.SiteId == s);
+            }
+            else
+            {
+                PopulateSiteDropDownList();
+            }
+
+            if (Request.Form["LabourId"] != "")
+            {
+                int l = Convert.ToInt32(Request.Form["LabourId"]);
+                PopulateLabourDropDownList(l);
+                lab = lab.Where(o => o.LabourId == l);
+            }
+            else
+            {
+                PopulateLabourDropDownList();
+            }
+
+            PopulateCategoryDropDownList();
+           
+
+            return View(lab);
+
+        }
+
+
+
+
+        public IActionResult SiteSummary()
         {
             //IEnumerable<LabourReport> x = _context.labours.GroupJoin(_context.MaterialExpenses, d => d.Id, o => o.LabourId, (labour, expense) => new LabourReport() { labour = labour,  materialExpense = expense });
             //IEnumerable<LabourReport> x = _context.labours.GroupJoin(_context.MaterialExpenses.Include(s=>s.Site), d => d.Id, o => o.LabourId, (labour, expense) => new LabourReport() { labour = labour, materialExpense = expense });
@@ -64,7 +134,7 @@ namespace SiteManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult LabelSum(LabourReport labourReport)
+        public IActionResult SiteSummary(LabourReport labourReport)
         {
             IEnumerable<LabourReport> LabSum = _context.labours
                .Include(p => p.MaterilaExpenses).ThenInclude(o => o.Site)
@@ -99,9 +169,9 @@ namespace SiteManagement.Controllers
             return View(LabSum);
         }
 
-            public IActionResult LabourReport()
+            public IActionResult MaterialReport()
         {
-            var m = _context.MaterialExpenses.Include("Labour").Include("Site");
+            var m = _context.MaterialExpenses.Include(o=>o.Labour).ThenInclude(o=>o.EmployeeCategory).Include("Site");
             
             PopulateLabourDropDownList();
             PopulateSiteDropDownList();
@@ -110,13 +180,13 @@ namespace SiteManagement.Controllers
         }
 
         [HttpPost]
-        public IActionResult LabourReport(LabourReport labourReport)
+        public IActionResult MaterialReport(LabourReport labourReport)
         {
-            var lab  = _context.MaterialExpenses.Include("Labour").Include("Site");
+            var lab  = _context.MaterialExpenses.Include(o => o.Labour).ThenInclude(o => o.EmployeeCategory).Include("Site");
             if (Request.Form["SiteId"] != ""){
                 int s = Convert.ToInt32(Request.Form["SiteId"]);
                 PopulateSiteDropDownList(s);
-                lab = _context.MaterialExpenses.Include("Labour").Include("Site").Where(o => o.SiteId == s);
+                lab = _context.MaterialExpenses.Include(o => o.Labour).ThenInclude(o => o.EmployeeCategory).Include("Site").Where(o => o.SiteId == s);
             }
             else
             {
@@ -142,11 +212,6 @@ namespace SiteManagement.Controllers
             //    lab = lab.Where(o => o.Labour.Category == c);
             //}
 
-
-
-
-
-
             return View(lab);
         }
 
@@ -161,18 +226,29 @@ namespace SiteManagement.Controllers
 
         public void PopulateSiteDropDownList(object selectedSite = null)
         {
+            if (selectedSite != null)
+            {
+                var ss = (from s in _context.Sites where s.Id == Convert.ToInt32(selectedSite) select  s.Name );
+                ViewBag.SelectedSite = ss.FirstOrDefault().ToString();
+            }
+            else
+            {
+                ViewBag.SelectedSite = null;
+            }
             var SitesQuery = (from site in _context.Sites
                               orderby site.Name
                               select new { site.Id, site.Name });
             ViewBag.SiteId = new SelectList(SitesQuery.AsNoTracking(), "Id", "Name", selectedSite);
         }
 
+
+
         public void PopulateCategoryDropDownList(object selectedCategory = null)
         {
-            //var CategoryQuery = (from category in _context.labours
-            //                  orderby category.Category
-            //                  select new { category.Id, category.Category });
-            //ViewBag.CategoryId = new SelectList(CategoryQuery.AsNoTracking(), "Id", "Category", selectedCategory);
+            var CategoryQuery = (from category in _context.EmployeeCategories
+                                 orderby category.Name
+                                 select new { category.Id, category.Name });
+            ViewBag.CategoryId = new SelectList(CategoryQuery.AsNoTracking(), "Id", "Name", selectedCategory);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SiteManagement.Models
         public string Phone { get; set; }
 
         [Display(Name = "Office Email")]
-        [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid Email format")]
+        [RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.-]+\.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid Email format")]
         public string email { get; set; }
 
         public ICollection<MaterialExpense> MaterialExpenses { get; set; }

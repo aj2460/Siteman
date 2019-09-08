@@ -1,29 +1,18 @@
-﻿@model PagingList<EmployeeCategory>
+﻿@model IEnumerable<SiteManagement.Models.ExpenseType>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-    <h4 class="mt-2 mb-2">Expense Category</h4>
+    <h4 class="mt-2 mb-2">Expense Type</h4>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
-
-    @*<nav aria-label="Products navigation example">
-   @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
-    </nav>*@
-
-<nav>
-    <vc:pager paging-list="@Model" />
-</nav>
-
-
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.ExType)
             </th>
             <th></th>
         </tr>
@@ -32,7 +21,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.ExType)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -43,11 +32,3 @@
 }
     </tbody>
 </table>
-
-
-
-
-
-<nav aria-label="Products navigation example">
-    <vc:pager paging-list="@Model" />
-</nav>

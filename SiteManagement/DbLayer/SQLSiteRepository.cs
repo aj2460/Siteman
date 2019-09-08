@@ -16,14 +16,14 @@ namespace SiteManagement.DbLayer
             this.context = context;
         }
 
-        public ICollection<Site> GetAllSite()
+        public IOrderedQueryable<Site> GetAllSite()
         {
             // var st=context.Sites.GroupJoin(context.MaterialExpenses.Select(e=>e.Id),s=>s.Id,m=>m.)
 
             var st = context.Sites
-                .Include(a => a.MaterialExpenses)
-                .Include(l=>l.LabourExpenses)
-               .ThenInclude(b => b.Labour).ToList();
+                .Include(a => a.MaterialExpenses).ThenInclude(o => o.Labour)
+                .Include(l=>l.LabourExpenses).ThenInclude(o=>o.ExpenseType)
+               .Include(l => l.LabourExpenses).ThenInclude(b => b.Labour).ThenInclude(o=>o.EmployeeCategory).OrderBy(o=>o.Id);
 
            
 
@@ -33,10 +33,10 @@ namespace SiteManagement.DbLayer
         public Site GetSite(int Id)
         {
             var st = context.Sites
-                .Include(a => a.MaterialExpenses)
-                .ThenInclude(b => b.Labour)
+                .Include(a => a.MaterialExpenses).ThenInclude(o=>o.Labour)
+                .Include(l => l.LabourExpenses).ThenInclude(o => o.ExpenseType)
                 .Include(l => l.LabourExpenses)
-               .ThenInclude(b => b.Labour).First(o => o.Id == Id);
+               .ThenInclude(b => b.Labour).ThenInclude(o => o.EmployeeCategory).First(o => o.Id == Id);
 
 
 

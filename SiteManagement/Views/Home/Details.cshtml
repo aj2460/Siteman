@@ -34,13 +34,15 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4 col-sm-6"">
+            <div class="col-md-4 col-sm-6" ">
                 <table>
-                    <tr> <td><h6>Material Expense</h6></td>
+                    <tr>
+                        <td><h6>Material Expense</h6></td>
                         <td align="right"><h6>@String.Format("{0:##,##,##0.00}", @Model.MaterialExpenses.Sum(o => o.Amount))</h6></td>
-                       
+
                     </tr>
-                    <tr><td><h6>Labour Expense</h6></td>
+                    <tr>
+                        <td><h6>Labour Expense</h6></td>
                         <td align="right"><h6>@String.Format("{0:##,##,##0.00}", @Model.LabourExpenses.Sum(o => o.Wage))</h6></td>
                     </tr>
                     <tr>
@@ -64,7 +66,7 @@
 
 
 
-
+<h6>Material Expenses</h6>
 
 <div class="row">
     <table class="table table-sm">
@@ -72,7 +74,7 @@
             <tr>
                 <th>Date</th>
                 <th>Employee Name</th>
-                <th>Particular</th>
+                <th>Supplier</th>
                 <th>Description</th>
                 <th>Amount</th>
 
@@ -81,39 +83,38 @@
         <tbody class="table-striped">
             @foreach (var mat in @Model.MaterialExpenses)
             {
-            <tr>
-                @*<td> @Convert.ToDateTime(@mat.Date).ToString("dd/MM/yyyy")</td>*@
-                <td> @Html.DisplayFor(modelItem => mat.Date)</td>
+                <tr>
+                    @*<td> @Convert.ToDateTime(@mat.Date).ToString("dd/MM/yyyy")</td>*@
+                    <td> @Html.DisplayFor(modelItem => mat.Date)</td>
 
 
-                <td>@mat.Labour.Name</td>
-                <td>@mat.Particular</td>
-                <td>@mat.Description</td>
-                <td>@String.Format("{0:##,##,##0.##}", @mat.Amount)</td>
-            </tr>
+                    <td>@mat.Labour.Name</td>
+                    <td>@mat.Supplier</td>
+                    <td>@mat.Description</td>
+                    <td>@String.Format("{0:##,##,##0.##}", @mat.Amount)</td>
+                </tr>
             }
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><h6>Total</h6></td>
-            <td><h6>@String.Format("{0:##,##,##0.##}", @Model.MaterialExpenses.Sum(o => o.Amount))</h6></td>
+            <tr>
+               
+                <td colspan="6"><h6>Total</h6></td>
+                <td><h6>@String.Format("{0:##,##,##0.##}", @Model.MaterialExpenses.Sum(o => o.Amount))</h6></td>
 
-        </tr>
+            </tr>
         </tbody>
     </table>
 </div>
 
-
+<h6>labour  Expenses</h6>
 <div class="row">
     <table class="table table-sm">
-        <thead  class="thead-light">
+        <thead class="thead-light">
             <tr>
                 <th>Date</th>
                 <th>Employee Name</th>
                 <th>Designation</th>
+                <th>Expense Type</th>
                 <th>Day</th>
-                <th>Wage</th>
+                <th>Wage/Expense</th>
 
             </tr>
         </thead>
@@ -123,24 +124,24 @@
                 <tr>
                     <td> @Html.DisplayFor(modelItem => lab.ExpDate)</td>
                     <td>@lab.Labour.Name</td>
-                    <td>@lab.Labour.EmployeeCategory</td>
+                    <td>@lab.Labour.EmployeeCategory.Name</td>
+                    <td>@lab.ExpenseType.ExType</td>
                     <td>@lab.Day</td>
                     <td>@String.Format("{0:##,##,##0.##}", lab.Wage)</td>
                 </tr>
             }
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><h6>Total</h6></td>
-            <td><h6>@String.Format("{0:##,##,##0.##}", @Model.LabourExpenses.Sum(o => o.Wage))</h6></td>
-        </tr>
+            <tr>
+                
+                <td colspan="5"><h6>Total</h6></td>
+                <td><h6>@String.Format("{0:##,##,##0.##}", @Model.LabourExpenses.Sum(o => o.Wage))</h6></td>
+            </tr>
         </tbody>
     </table>
 </div>
-        
+
 
 <div>
-    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
-    <a asp-controller="Home" asp-action="Index">Back to List</a>
+    <a href="/Home">Back to List</a>
 </div>
+
+@*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@

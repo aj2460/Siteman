@@ -1,12 +1,11 @@
-﻿@model IEnumerable<LabourExpense>
-@{
-    ViewData["Title"] = "LabourReport";
-}
+﻿@model IEnumerable<MaterialExpense>
+<h4>Material Report </h4>
 
-    <h4>Labour Expense Report </h4>
+
+
 <h6 class="mt-3 mb-3"> Select Site And labour</h6>
 <div class="col-sm-6">
-    <form asp-action="LabourReport">
+    <form asp-action="MaterialReport">
         <div class="form-group row">
             <label id="LabourId" class="control-label col-sm-3">Labour</label>
             <select Name="LabourId" id="LabourId" class="form-control col-sm-8" asp-items="@ViewBag.LabourId">
@@ -23,20 +22,22 @@
         </div>
 
         @*<div class="form-group row">
-                <label id="CategoryId" class="control-label  col-sm-3">Site</label>
-                <select Name="CategoryId" id="CategoryId" class="form-control  col-sm-8" asp-items="@ViewBag.CategoryId">
-                    <option value="">-- Select Category --</option>
-                </select>
-            </div>*@
+            <label id="CategoryId" class="control-label  col-sm-3">Site</label>
+            <select Name="CategoryId" id="CategoryId" class="form-control  col-sm-8" asp-items="@ViewBag.CategoryId">
+                <option value="">-- Select Category --</option>
+            </select>
+        </div>*@
 
 
 
 
         <div class="form-group">
-            <input type="submit" value="Labour Report" class="btn btn-primary" />
+            <input type="submit" value="Material Report" class="btn btn-primary" />
         </div>
     </form>
 </div>
+
+
 
 <div class="row">
     <table class="table  table-sm">
@@ -45,28 +46,32 @@
                 <th>Date</th>
                 <th>Site</th>
                 <th>Employee/Labour</th>
-                <th>Expense Type</th>
+                
                 <th>Particular</th>
                 <th>Description</th>
                 <th>Amount</th>
             </tr>
         </thead>
+
         <tbody>
             @foreach (var s in Model)
             {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => s.ExpDate)</td>
-                <td> @s.Site.Name</td>
-                <td> @s.Labour.Name</td>
-                @*<td> @s.Labour.EmployeeCategory.Name</td>*@
-                <td> @s.ExpenseType.ExType </td>
-                <td> @s.Particular</td>
-                <td> @s.Description</td>
-                <td align="right">@String.Format("{0:##,##,##0.00}", @s.Wage)</td>
-            </tr>
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => s.Date)</td>
+                    <td> @s.Site.Name</td>
+                    <td> @s.Labour.Name</td>
+                    @*<td> @s.Labour.EmployeeCategory.Name</td>*@
+                    <td> @s.Supplier</td>
+                     <td> @s.Description</td>
+                    <td align="right">@String.Format("{0:##,##,##0.00}", @s.Amount)</td>
+                </tr>
             }
-            <tr><td colspan="5"> <td> <h5>Total</h5></td><td align="right"><h5>@String.Format("{0:##,##,##0.00}", @Model.Sum(o => o.Wage))</h5></td></tr>
+            <tr><td colspan="4"> <td> <h5>Total</h5></td><td align="right"><h5>@String.Format("{0:##,##,##0.00}", @Model.Sum(o => o.Amount))</h5></td></tr>
 
         </tbody>
     </table>
 </div>
+
+
+
+

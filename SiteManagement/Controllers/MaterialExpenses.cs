@@ -22,9 +22,75 @@ namespace SiteManagement.Controllers
         // GET: MaterialExpenses
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.MaterialExpenses.Include(m => m.Labour).Include(m => m.Site);
+            var appDbContext = _context.MaterialExpenses.Include(m => m.Labour).Include(m => m.Site).OrderByDescending(o => o.Id); 
+            PopulateSiteDropDownList();
+            PopulateLabourDropDownList();
             return View(await appDbContext.ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Index(int id)
+        {
+
+            var lab = _context.MaterialExpenses.Include(o => o.Labour).ThenInclude(o => o.EmployeeCategory).Include("Site");
+            if (Request.Form["SiteId"] != "")
+            {
+                int s = Convert.ToInt32(Request.Form["SiteId"]);
+                PopulateSiteDropDownList(s);
+                lab = _context.MaterialExpenses.Include(o => o.Labour).ThenInclude(o => o.EmployeeCategory).Include("Site").Where(o => o.SiteId == s);
+            }
+            else
+            {
+                PopulateSiteDropDownList();
+            }
+
+            if (Request.Form["LabourId"] != "")
+            {
+                int l = Convert.ToInt32(Request.Form["LabourId"]);
+                PopulateLabourDropDownList(l);
+                lab = lab.Where(o => o.LabourId == l);
+            }
+            else
+            {
+                PopulateLabourDropDownList();
+            }
+
+           
+            return View(await lab.ToListAsync());
+        }
+
+
+        public void PopulateLabourDropDownList(object selectedLabour = null)
+        {
+            var LaboursQuery = (from labour in _context.labours
+                                orderby labour.Name
+                                select new { labour.Id, labour.Name });
+            ViewBag.LabourId = new SelectList(LaboursQuery.AsNoTracking(), "Id", "Name", selectedLabour);
+        }
+
+        public void PopulateSiteDropDownList(object selectedSite = null)
+        {
+            if (selectedSite != null)
+            {
+                var ss = (from s in _context.Sites where s.Id == Convert.ToInt32(selectedSite) select s.Name);
+                ViewBag.SelectedSite = ss.FirstOrDefault().ToString();
+            }
+            else
+            {
+                ViewBag.SelectedSite = null;
+            }
+            var SitesQuery = (from site in _context.Sites
+                              orderby site.Name
+                              select new { site.Id, site.Name });
+            ViewBag.SiteId = new SelectList(SitesQuery.AsNoTracking(), "Id", "Name", selectedSite);
+        }
+
+
+
+
+
+
+
 
         // GET: MaterialExpenses/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -49,6 +115,11 @@ namespace SiteManagement.Controllers
         // GET: MaterialExpenses/Create
         public IActionResult Create()
         {
+
+            ViewBag.mm =  _context.MaterialExpenses.Include(m => m.Labour).Include(m => m.Site).OrderByDescending(o => o.Id).Take(5);
+
+
+
             ViewData["LabourId"] = new SelectList(_context.labours, "Id", "Name");
             ViewData["SiteId"] = new SelectList(_context.Sites, "Id", "Name");
             return View();
@@ -59,13 +130,14 @@ namespace SiteManagement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SiteId,LabourId,Date,Particular,Description,Amount")] MaterialExpense materialExpense)
+        public async Task<IActionResult> Create([Bind("Id,SiteId,LabourId,Date,InvoiceNo,Supplier,Description,Amount")] MaterialExpense materialExpense)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(materialExpense);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["Success"] = "Success!";
+                return RedirectToAction(nameof(Create));
             }
             ViewData["LabourId"] = new SelectList(_context.labours, "Id", "Name", materialExpense.LabourId);
             ViewData["SiteId"] = new SelectList(_context.Sites, "Id", "Name", materialExpense.SiteId);
@@ -95,7 +167,7 @@ namespace SiteManagement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SiteId,LabourId,Date,Particular,Description,Amount")] MaterialExpense materialExpense)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SiteId,LabourId,Date,InvoiceNo,Supplier,Description,Amount")] MaterialExpense materialExpense)
         {
             if (id != materialExpense.Id)
             {

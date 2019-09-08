@@ -1,0 +1,36 @@
+﻿@model  IEnumerable<LabourReport>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="text-right">Material Expense</th>
+                <th class="text-right">Labour Expense</th>
+                <th class="text-right">Labour Receipt</th>
+                <th class="text-right">Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var Lab in @Model)
+            {
+                var bal =  @Lab.labourReceipt.Sum(o => o.Amount)-(@Lab.materialExpense.Sum(o => o.Amount) + @Lab.labourExpense.Sum(o => o.Wage)) ;
+            <tr>
+                <td> @Lab.labour.Name </td>
+                <td align="right">@String.Format("{0:##,##,##0.00}", @Lab.materialExpense.Sum(o => o.Amount)) </td>
+
+                <td align="right">@String.Format("{0:##,##,##0.00}", @Lab.labourExpense.Sum(o => o.Wage))</td>
+                <td align="right">@String.Format("{0:##,##,##0.00}", @Lab.labourReceipt.Sum(o => o.Amount))</td>
+                
+                <td align="right">@String.Format("{0:##,##,##0.00}", @bal)</td>
+
+            </tr>
+               
+            }
+
+           
+        </tbody>
+    </table>
+

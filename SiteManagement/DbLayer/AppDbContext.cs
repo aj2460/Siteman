@@ -21,7 +21,14 @@ namespace SiteManagement.DbLayer
         public DbSet<LabourReceipt> labourReceipts { get; set; }
 
         public DbSet<EmployeeCategory> EmployeeCategories { get; set; }
+        public DbSet<ExpenseType> ExpType { get; set; }
 
 
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<MaterialExpense>()
+        //        .Property(b => b.Date)
+        //        .HasDefaultValue(DateTime.Now);
+        //}
     }
 }

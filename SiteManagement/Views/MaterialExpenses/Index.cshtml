@@ -1,65 +1,104 @@
 ﻿@model IEnumerable<SiteManagement.Models.MaterialExpense>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Material Expense";
 }
 
-<h1>Index</h1>
+<h4 class="mt-2 mb-2">Material Expense</h4>
 
+
+<div class="col-sm-12">
+
+    <form asp-action="Index" class="row">
+        <div class="col-sm-5">
+            <div class="form-group row align-items-lg-end ">
+                <label id="LabourId" class="control-label col-sm-4 align-content-center">Labour</label>
+                <select Name="LabourId" id="LabourId" class="form-control col-sm-8" asp-items="@ViewBag.LabourId">
+                    <option value="">-- Select labour/All --</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="col-sm-5">
+            <div class="form-group row align-items-lg-end">
+                <label id="SiteId" class="control-label  col-sm-4">Site</label>
+                <select Name="SiteId" id="SiteId" class="form-control  col-sm-8" asp-items="@ViewBag.SiteId">
+                    <option value="">-- Select Site/All --</option>
+                </select>
+            </div>
+        </div>
+       
+        <div class="form-group col-sm-2">
+            <input type="submit" value="Filter Table" class="btn btn-primary" />
+        </div>
+
+    </form>
+
+</div>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Particular)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Labour)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Site)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Particular)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Labour.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Site.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row">
+
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Labour)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Site)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Supplier)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.InvoiceNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Labour.Name)
+                    </td>
+                    <td width="20%">
+                        @Html.DisplayFor(modelItem => item.Site.Name)
+                    </td>
+                    <td width="30%">
+                        @Html.DisplayFor(modelItem => item.Supplier)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvoiceNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

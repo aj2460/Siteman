@@ -11,5 +11,6 @@ namespace SiteManagement.ViewModels
         public Labour labour { get; set; }
         public IEnumerable<MaterialExpense> materialExpense { get; set; }
         public IEnumerable<LabourExpense> labourExpense { get; set; }
+        public IEnumerable<LabourReceipt> labourReceipt { get; set; }
     }
 }

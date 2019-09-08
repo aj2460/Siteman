@@ -3,63 +3,72 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-   
-    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
-   
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
-    <link href="~/css/mvc-grid/mvc-grid.css" rel="stylesheet" />
+
+    <link href="~/lib/bootstrap/css/bootstrap-grid.css" rel="stylesheet" />
+    @*<link href="~/css/bootstrap.css" rel="stylesheet" />*@
+
     <link href="~/css/Site.css" rel="stylesheet" />
-
-
     <title>@ViewBag.Title</title>
 </head>
 <body>
     <div class="container">
         <nav class="navbar navbar-expand-sm  bg-dark navbar-dark">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                <img src="~/Images/Logo.png" height="30" width="30" />
-            </a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a asp-controller="Sites" asp-action="Index" class="nav-link">Site</a>
-                </li>
-                <li class="nav-item">
-                    <a asp-controller="EmployeeCategories" asp-action="Index" class="nav-link">Category</a>
-                </li>
-                <li class="nav-item">
-                    <a asp-controller="Employee" asp-action="Index" class="nav-link">Labour</a>
-                </li>
-                <li class="nav-item">
-                    <a asp-controller="materialexpenses" asp-action="Index" class="nav-link">Material Expense</a>
-                </li>
-                <li class="nav-item">
-                    <a asp-controller="labourexpenses" asp-action="Index" class="nav-link">Labour Expense</a>
-                </li>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <li class="nav-item">
-                    <a asp-controller="labourreceipts" asp-action="Index" class="nav-link"> Receipts</a>
-                </li>
-
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        Report
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a asp-controller="Report" asp-action="labourreport">Labour Report</a></a></li>
-                        <li><a asp-controller="Report" asp-action="LabelSum" >Labour Summary</a></li>
-                        <li><a href="#">Page 1-3</a></li>
-                    </ul>
-
-                </li>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <img src="~/Images/Logo.png" height="30" width="30" />
+                </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Sites" asp-action="Index" class="nav-link">Site</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="EmployeeCategories" asp-action="Index" class="nav-link">Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="ExpenseTypes" asp-action="Index" class="nav-link">Expense Type</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Employee" asp-action="Index" class="nav-link">Labour</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="materialexpenses" asp-action="Index" class="nav-link">Material Expense</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="labourexpenses" asp-action="Index" class="nav-link">Labour Expense</a>
+                    </li>
 
 
-            </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                            Report
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a asp-controller="Report" asp-action="MaterialReport" class="dropdown-item">Material Report</a></li>
+                            <li><a asp-controller="Report" asp-action="LabourReport" class="dropdown-item">Labour Report</a></li>
+                            <li><a asp-controller="Report" asp-action="SiteSummary" class="dropdown-item">Site Summary</a></li>
+                            <li class="dropdown-divider"></li>
+
+
+                        </ul>
+
+                    </li>
+
+
+                </ul>
+            </div>
+
+
         </nav>
-
 
         <div class="container">
             @RenderBody()
@@ -73,10 +82,11 @@
 
 
 
-
     <script src="~/lib/jquery/jquery.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.js"></script>
-    <script src="~/js/mvc-grid/mvc-grid.js"></script>
+
+
+    <script src="~/js/site.js"></script>
     @if (IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts", required: true)

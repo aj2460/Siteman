@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ReflectionIT.Mvc.Paging;
 using SiteManagement.DbLayer;
 
 namespace SiteManagement
@@ -27,6 +28,9 @@ namespace SiteManagement
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("SiteDbContext")));
             services.AddMvc();
+
+            //paging
+            services.AddPaging();
 
             services.AddScoped<ISiteRepository, SQLSiteRepository>();
 

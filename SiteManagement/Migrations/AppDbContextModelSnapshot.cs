@@ -32,6 +32,19 @@ namespace SiteManagement.Migrations
                     b.ToTable("EmployeeCategories");
                 });
 
+            modelBuilder.Entity("SiteManagement.Models.ExpenseType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ExType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExpType");
+                });
+
             modelBuilder.Entity("SiteManagement.Models.Labour", b =>
                 {
                     b.Property<int>("Id")
@@ -69,7 +82,12 @@ namespace SiteManagement.Migrations
 
                     b.Property<DateTime>("ExpDate");
 
+                    b.Property<int>("ExpenseTypeId");
+
                     b.Property<int>("LabourId");
+
+                    b.Property<string>("Particular")
+                        .HasMaxLength(250);
 
                     b.Property<int>("SiteId");
 
@@ -78,6 +96,8 @@ namespace SiteManagement.Migrations
                         .HasColumnType("money");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExpenseTypeId");
 
                     b.HasIndex("LabourId");
 
@@ -125,13 +145,15 @@ namespace SiteManagement.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(250);
 
-                    b.Property<int>("LabourId");
-
-                    b.Property<string>("Particular")
-                        .IsRequired()
+                    b.Property<string>("InvoiceNo")
                         .HasMaxLength(250);
 
+                    b.Property<int>("LabourId");
+
                     b.Property<int>("SiteId");
+
+                    b.Property<string>("Supplier")
+                        .HasMaxLength(250);
 
                     b.HasKey("Id");
 
@@ -180,6 +202,11 @@ namespace SiteManagement.Migrations
 
             modelBuilder.Entity("SiteManagement.Models.LabourExpense", b =>
                 {
+                    b.HasOne("SiteManagement.Models.ExpenseType", "ExpenseType")
+                        .WithMany()
+                        .HasForeignKey("ExpenseTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("SiteManagement.Models.Labour", "Labour")
                         .WithMany("LabourExpenses")
                         .HasForeignKey("LabourId")

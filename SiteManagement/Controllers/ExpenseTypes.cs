@@ -8,29 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using SiteManagement.DbLayer;
 using SiteManagement.Models;
 
-using ReflectionIT.Mvc.Paging;
-
-
 namespace SiteManagement.Controllers
 {
-    public class EmployeeCategories : Controller
+    public class ExpenseTypes : Controller
     {
         private readonly AppDbContext _context;
 
-        public EmployeeCategories(AppDbContext context)
+        public ExpenseTypes(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: EmployeeCategories
-        public async Task<IActionResult> Index(int page=1)
+        // GET: ExpenseTypes
+        public async Task<IActionResult> Index()
         {
-            var query =  _context.EmployeeCategories.OrderBy(o=>o.Name);
-            var model= await PagingList.CreateAsync(query, 20, page);
-            return View(model);
+            return View(await _context.ExpType.ToListAsync());
         }
 
-        // GET: EmployeeCategories/Details/5
+        // GET: ExpenseTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,39 +33,39 @@ namespace SiteManagement.Controllers
                 return NotFound();
             }
 
-            var employeeCategory = await _context.EmployeeCategories
+            var expenseType = await _context.ExpType
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employeeCategory == null)
+            if (expenseType == null)
             {
                 return NotFound();
             }
 
-            return View(employeeCategory);
+            return View(expenseType);
         }
 
-        // GET: EmployeeCategories/Create
+        // GET: ExpenseTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: EmployeeCategories/Create
+        // POST: ExpenseTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] EmployeeCategory employeeCategory)
+        public async Task<IActionResult> Create([Bind("Id,ExType")] ExpenseType expenseType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employeeCategory);
+                _context.Add(expenseType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employeeCategory);
+            return View(expenseType);
         }
 
-        // GET: EmployeeCategories/Edit/5
+        // GET: ExpenseTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,22 +73,22 @@ namespace SiteManagement.Controllers
                 return NotFound();
             }
 
-            var employeeCategory = await _context.EmployeeCategories.FindAsync(id);
-            if (employeeCategory == null)
+            var expenseType = await _context.ExpType.FindAsync(id);
+            if (expenseType == null)
             {
                 return NotFound();
             }
-            return View(employeeCategory);
+            return View(expenseType);
         }
 
-        // POST: EmployeeCategories/Edit/5
+        // POST: ExpenseTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] EmployeeCategory employeeCategory)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ExType")] ExpenseType expenseType)
         {
-            if (id != employeeCategory.Id)
+            if (id != expenseType.Id)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace SiteManagement.Controllers
             {
                 try
                 {
-                    _context.Update(employeeCategory);
+                    _context.Update(expenseType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeCategoryExists(employeeCategory.Id))
+                    if (!ExpenseTypeExists(expenseType.Id))
                     {
                         return NotFound();
                     }
@@ -118,10 +113,10 @@ namespace SiteManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(employeeCategory);
+            return View(expenseType);
         }
 
-        // GET: EmployeeCategories/Delete/5
+        // GET: ExpenseTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,30 +124,30 @@ namespace SiteManagement.Controllers
                 return NotFound();
             }
 
-            var employeeCategory = await _context.EmployeeCategories
+            var expenseType = await _context.ExpType
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employeeCategory == null)
+            if (expenseType == null)
             {
                 return NotFound();
             }
 
-            return View(employeeCategory);
+            return View(expenseType);
         }
 
-        // POST: EmployeeCategories/Delete/5
+        // POST: ExpenseTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employeeCategory = await _context.EmployeeCategories.FindAsync(id);
-            _context.EmployeeCategories.Remove(employeeCategory);
+            var expenseType = await _context.ExpType.FindAsync(id);
+            _context.ExpType.Remove(expenseType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeCategoryExists(int id)
+        private bool ExpenseTypeExists(int id)
         {
-            return _context.EmployeeCategories.Any(e => e.Id == id);
+            return _context.ExpType.Any(e => e.Id == id);
         }
     }
 }

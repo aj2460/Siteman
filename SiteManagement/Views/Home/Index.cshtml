@@ -1,4 +1,8 @@
-﻿@model IEnumerable<Site>
+﻿@model PagingList<Site>
+
+
+
+
 
 
 @{
@@ -7,6 +11,12 @@
 
 
 <h4>Site List</h4>
+
+<div class="pagination">
+    <nav aria-label="Page navigation example">
+        @await this.Component.InvokeAsync("Pager", new { PagingList = this.Model })
+    </nav>
+</div>
 
 <table class="table  table-sm">
     <thead class="thead-light">
@@ -35,12 +45,16 @@
 
                     <td><a asp-controller="Home" asp-action="Details" asp-route-id="@site.Id" class="btn btn-success btn-sm">Site Summary</a> </td>
                 </tr>
-                 i = i + 1;
+                i = i + 1;
             }
         }
     </tbody>
 </table>
 
+
+<nav aria-label="Search results pages">
+    <vc:pager paging-list="@Model" />
+</nav>
 
 
 <div>

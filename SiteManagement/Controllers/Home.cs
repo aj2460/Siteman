@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ReflectionIT.Mvc.Paging;
 using SiteManagement.DbLayer;
+using SiteManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +17,14 @@ namespace SiteManagement.Controllers
         {
             _siteRepository = siteRepository;
         }
-        public ViewResult Index()
+
+        public async Task<IActionResult> Index(int page=1)
         {
-            return View(_siteRepository.GetAllSite());
+           var query=_siteRepository.GetAllSite();
+            var model = await PagingList.CreateAsync(query,5,page);
+            return View(model);
         }
+
 
 
         public IActionResult Details(int Id)

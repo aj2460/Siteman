@@ -4,62 +4,110 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+    <h4 class="mt-2 mb-2">labour  Expense</h4>
+
+    <div class="col-sm-12">
+
+        <form asp-action="Index" class="row">
+            <div class="col-sm-5">
+                <div class="form-group row align-items-lg-end ">
+                    <label id="LabourId" class="control-label col-sm-4 align-content-center">Labour</label>
+                    <select Name="LabourId" id="LabourId" class="form-control col-sm-8" asp-items="@ViewBag.LabourId">
+                        <option value="">-- Select labour/All --</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <div class="form-group row align-items-lg-end">
+                    <label id="SiteId" class="control-label  col-sm-4">Site</label>
+                    <select Name="SiteId" id="SiteId" class="form-control  col-sm-8" asp-items="@ViewBag.SiteId">
+                        <option value="">-- Select Site/All --</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group col-sm-2">
+                <input type="submit" value="Filter Table" class="btn btn-primary" />
+            </div>
+
+        </form>
+
+    </div>
+
+
+
+
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Day)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Labour)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Site)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExpDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Day)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Labour.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Site.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExpDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Labour)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Site)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExpenseType)
+                </th>
+               
+                <th>
+                    @Html.DisplayNameFor(model => model.Day)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Wage)
+                </th>
+               
+
+
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Labour.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Site.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpenseType.ExType)
+                    </td>
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Day)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Wage)
+                    </td>
+                   
+
+
+
+                    <td class="small">
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

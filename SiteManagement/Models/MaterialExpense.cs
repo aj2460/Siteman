@@ -9,6 +9,12 @@ namespace SiteManagement.Models
 {
     public class MaterialExpense
     {
+
+        public MaterialExpense()
+        {
+            this.Date = DateTime.Now;
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -17,14 +23,17 @@ namespace SiteManagement.Models
         [Required]
         public int LabourId { get; set; }
 
-        
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MMM/yy}")]
         public DateTime Date { get; set; }
 
-        [MaxLength(250, ErrorMessage = "Particular Cannot Exceed 250 Characters")]
-        [Required]
-        public string Particular { get; set; }
+
+        [MaxLength(250, ErrorMessage = "Invoice Cannot Exceed 250 Characters")]
+        public string InvoiceNo { get; set; }
+
+        [MaxLength(250, ErrorMessage = "Supplier Cannot Exceed 250 Characters")]
+        public string Supplier { get; set; }
 
         [MaxLength(250, ErrorMessage = "Description Cannot Exceed 250 Characters")]
         public string Description { get; set; }
@@ -35,7 +44,7 @@ namespace SiteManagement.Models
 
         public Labour Labour { get; set; }
         public Site Site { get; set; }
-
+       
 
     }
 

@@ -4,47 +4,96 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h5>Add labour Expense</h5>
 
-<h4>LabourExpense</h4>
+
 <hr />
-
 <div class="row">
-    <div class="col-md-4">
+    <div class="row" style="margin:0 ; padding:0">
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success col-md-12" role="alert" style="margin:0 ; padding:0"><H6>@TempData["Success"] </H6></div>
+        }
+
+    </div>
+
+
+    <div class="col-md-12">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="SiteId" class="control-label"></label>
-                <select asp-for="SiteId" class="form-control" asp-items="ViewBag.SiteId"></select>
+            <div class="row">
+                <div class="col-md-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger "></div>
+                    <div class="form-group">
+                        <label asp-for="SiteId" class="control-label SiteId">Site</label>
+                        <select asp-for="SiteId" class="form-control" asp-items="ViewBag.SiteId"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="LabourId" class="control-label">Labour/Employee</label>
+                        <select asp-for="LabourId" class="form-control LabourId" asp-items="ViewBag.LabourId"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="ExpenseTypeId" class="control-label">Expense Type</label>
+                        <select asp-for="ExpenseTypeId" class="form-control" asp-items="ViewBag.ExpenseTypeId"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="ExpDate" class="control-label"></label>
+                        <input asp-for="ExpDate" class="form-control exdate" value=@DateTime.Now.ToString("yyy-MM-dd") />
+                        <span asp-validation-for="ExpDate" class="text-danger"></span>
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="LabourId" class="control-label"></label>
-                <select asp-for="LabourId" class="form-control" asp-items="ViewBag.LabourId"></select>
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Particular" class="control-label"></label>
+                        <input asp-for="Particular" class="form-control" />
+                        <span asp-validation-for="Particular" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Day" class="control-label"></label>
+                        <input asp-for="Day" class="form-control" />
+                        <span asp-validation-for="Day" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Wage" class="control-label">Wage/Expense</label>
+                        <input asp-for="Wage" class="form-control" />
+                        <span asp-validation-for="Wage" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="ExpDate" class="control-label"></label>
-                <input asp-for="ExpDate" class="form-control" />
-                <span asp-validation-for="ExpDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Day" class="control-label"></label>
-                <input asp-for="Day" class="form-control" value="1" />
-                <span asp-validation-for="Day" class="text-danger"></span>
-            </div>
-            <div class="form-group ">
-                <label asp-for="Wage" class="control-label"></label>
-                <input asp-for="Wage" class="form-control"  />
-                <span asp-validation-for="Wage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+
     </div>
 </div>
 
@@ -52,9 +101,104 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts{
+
+@{
+    var Model2 = @ViewBag.mm;
+
+    if (Model2 != null)
+    {
+
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Exp Date</th>
+                    <th>Labour</th>
+                    <th>Site</th>
+                    <th>Expense Type</th>
+                    <th>Day</th>
+                    <th>Wage/expense</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model2)
+{
+                    <tr>
+                        <td>@Convert.ToDateTime(item.ExpDate).ToString("dd/MM/yyyy")</td>
+                        <td>@item.Labour.Name</td>
+                        <td>@item.Site.Name</td>
+                        <td>@item.ExpenseType.ExType</td>
+                        <td>@item.Day</td>
+                        <td>@item.Wage</td>
+                    </tr>
+}
+            </tbody>
+        </table>
+    </div>
+        }
+    }
 
 
+
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+            $('.SiteId').focus();
+        });
+    </script>
+
+    <script>
+        //function myFunction(){
+        //      d = document.getElementById("LabourId").value;
+        // alert(d);
+        // }
+
+
+        //$(document).ready(function () {
+        //    $("#LabourId").change(function () {
+        //        $.get("LabourExpenses/GetWage", { LabourId: $("#LabourId"), val() },
+        //            function (data) {
+        //                $.echo(data, function (index, wage) {
+
+        //                    $("#Wage").val(wage)
+        //                });
+        //            });
+        //    })
+        //});
+
+
+
+        $(document).ready(function () {
+            $("#LabourId").change(function () {
+                var myData = { LabourId: $("#LabourId").val() };
+                
+                 $.ajax({
+                    url: "/LabourExpenses/GetWage",
+                     type: "POST",
+                     data: myData,
+                    
+                     success: function (response) {
+                         $("#Wage").empty();
+                        // alert(response);
+                         var r = response                      
+                        $("#Wage").val(response);
+                       
+                    }
+                });
+
+            })
+
+            
+        });
 
     </script>
 }
+
+
+
+ 
